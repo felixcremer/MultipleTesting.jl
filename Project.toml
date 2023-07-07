@@ -3,6 +3,10 @@ uuid = "24d416ef-899e-44e0-ab72-82ea709e2f74"
 authors = ["Felix Cremer <fcremer@bgc-jena.mpg.de> and contributors"]
 version = "0.1.0"
 
+[deps]
+ImageMorphology = "787d08f9-d448-5407-9aad-5290dd7ab264"
+YAXArrays = "c21b50f5-aa40-41ea-b809-c0f5e47bfa5c"
+
 [compat]
 julia = "1"
 
