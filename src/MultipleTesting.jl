@@ -1,6 +1,6 @@
 module MultipleTesting
 using YAXArrays
-import ImageMorphology: label_components
+import ImageMorphology: label_components, component_lengths, component_indices
 
 function permutedtests(data, teststat; dims="Time")
     
@@ -14,7 +14,7 @@ end
 Mask significant clusters in teststat based on the component labels as cluster indicators. 
 The threshold `clusterthresh` gives the minimal size of a cluster that is kept.
 """ 
-function maskcluster(teststatisticvalue, testlabels, clusterthresh; indims=(InDims("X", "Y"), InDims("X", "Y")), outdims=OutDims("X", "Y"))
+function maskcluster(teststatisticvalue::YAXArray, testlabels::YAXArray, clusterthresh; indims=(InDims("X", "Y"), InDims("X", "Y")), outdims=OutDims("X", "Y"))
     mapCube(maskcluster!, (teststatisticvalue, testlabels), clusterthresh; indims, outdims)
 end
 """
@@ -35,6 +35,10 @@ function maskcluster!(output, testval, inputlabels, clusterthresh)
     output .= .!iszero.(inputlabels) .* testval
 end
 
+function maskcluster(testval, inputlabels, clusterthresh)
+    output = similar(testval)
+    maskcluster!(output, testval, inputlabels, clusterthresh)
+end
 """
     getlabels!(labelsout, xin)
 Compute the labels for the data in `xin` and save it in `labelsout`.
